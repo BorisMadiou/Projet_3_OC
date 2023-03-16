@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="login-page" lang="fr">
+<html lang="fr">
 <head>
 	<meta charset="UTF-8">
 	<title>Sophie Bluel - Architecte d'intérieur</title>
@@ -9,37 +9,33 @@
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
-	<script type="module" src="test.js"></script>
 </head>
-<body>
+<body class="login-page">
 <header>
-	<h1>Sophie Bluel <span>Architecte d'inteérieur</span></h1>
-	<nav>
-		<ul>
-			<li>projets</li>
-			<li>contact</li>
-			<li>login</li>
-			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
-		</ul>
-	</nav>
-</header>
+	<div class="title-nav">
+		<h1>Sophie Bluel <span>Architecte d'inteérieur</span></h1>
+		<nav>
+			<ul>
+				<li><a href="index.html#projects">projets</a></li>
+				<li><a href="index.html#contact">contact</a></li>
+				<li><a href="login.html">login</a></li>
+				<li><a href="#"><img class="insta" src="./assets/icons/instagram.png" alt="Instagram"></a></li>
+			</ul>
+		</nav>
+	</div>
+	</header>
 <main class="login">
-    <h1>Log in</h1>
-    <!-- <form action="verification.php" method="POST">
-        <label><b>E-mail</b></label>
-        <input type="text" name="username" required>
-        <label><b>Mot de passe</b></label>
-        <input type="password" name="password" required>
-        <input type="submit" id='submit' value='Se connecter' >
-    </form> -->
-    <form action="#" method="post">
-        <label for="name">Nom</label>
-        <input type="text" name="name" id="name">
+    <h1 id="login">Log in</h1>
+    <form class="form-connexion" >
         <label for="email">Email</label>
         <input type="email" name="email" id="email">
-        <input type="submit" value="Se connecter">
+		<b class="email-error"></b>
+        <label for="password">Mot de passe</label>
+        <input type="password" name="password" id="password">
+        <b class="password-error"></b>
+		<input type="submit" value="Se connecter">
     </form>
-
+	<p><a class="login" href="#">Mot de passe oublié</a></p>
 </main>
 <footer>
 	<nav>
@@ -48,5 +44,6 @@
 		</ul>
 	</nav>
 </footer>
+<script type="module" src="login.js"></script>
 </body>
 </html>

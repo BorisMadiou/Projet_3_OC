@@ -28,6 +28,9 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
 }
+html{
+	background-color: white;
+}
 body {
 	line-height: 1;
 }
@@ -47,6 +50,10 @@ table {
 	border-spacing: 0;
 }
 /** end reset css**/
+a {
+	text-decoration: none;
+	color: black;
+}
 body {
 	max-width: 1140px;
 	margin:auto;
@@ -54,13 +61,14 @@ body {
 	font-size: 14px;
 	background-color: #FFFEF8;
 }
-header {
+.title-nav {
+	margin-top: 38px;
 	display: flex;
 	justify-content: space-between;
-	margin: 50px 0
+	padding: 0 0 0 50px;
 }
 section {
-	margin: 50px 0
+	margin: 50px 0 0 0
 }
 
 h1{
@@ -89,16 +97,20 @@ nav ul {
 	display: flex;
 	align-items: center;
 	list-style-type: none;
-
 }
 nav li {
 	padding: 0 10px;
 	font-size: 1.2em;
 }
+img.insta {
+	width: 19.36px;
+	height: 19.36px;
+}
 
-li:hover {
+li a:hover {
 	color: #B1663C;
 }
+
 #introduction {
 	display: flex;
 	align-items: center;
@@ -124,7 +136,6 @@ li:hover {
 }
 #portfolio h2 {
 	text-align: center;
-	margin-bottom: 51px;
 }
 .filters {
 	padding-bottom: 51px;
@@ -166,7 +177,7 @@ li:hover {
 }
 #contact,
 .login {
-	width: 50%;
+	width: 379px;
 	margin: auto;
 }
 #contact > * {
@@ -213,6 +224,10 @@ input[type="submit"] {
 	border-radius: 60px ;
 }
 
+input[type="submit"]:hover {
+	cursor: pointer;
+}
+
 footer {
 	background-color: white;
 	height: 60px;
@@ -232,22 +247,136 @@ footer nav ul {
 .login-page {
 	height: 1024px;
 }
-/* .login {
-	display: flex;
-	flex-direction: column;
+
+#login {
+	padding-top: 150px;
 	text-align: center;
-	width: 50%;
+}
+.login a {
+	font-size: 1.2em;
+	font-weight: 500;
 	margin: auto;
-} */
-/* .login form {
-	text-align: left;
-	margin-top:30px;
+}
+.login p {
+	text-align: center;
+	padding-bottom: 368px;
+}
+
+.email-error,
+.password-error {
+	color: red;
+}
+
+/* ..............Admin................. */
+
+.publish {
+	height: 59px;
+	background-color: black;
+	margin: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.publish button {
+	min-width: 100px;
+	height: 37px;
+	font-family: "work sans" ;
+	padding: 0 10px 0 10px;
+	color: black;
+	background-color: rgb(255, 255, 255);
+	font-size: 14px;
+	font-weight: 500;
+	border: 1px solid white;
+	border-radius: 60px;
+	margin-left: 20px;
+}
+
+.modify {
+	display: flex;
+	align-items: center;
+}
+.modify p {
+	padding-left: 9px;
+}
+.white {
+	color: white;
+}
+.black {
+	color: black;
+}
+.intro {
+	margin:13px 0 0 5%;
+}
+.title-projects {
+	margin-bottom: 51px;
+	margin-left: 43.3%;
+	display: flex;
+	align-items: center;
+	gap: 31px;
+}
+.admin {
+	display: none;
+}
+
+/* ..........Modal........ */
+
+.modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	background: rgba(0, 0, 0, 0.3);
+	display: flex;
+	justify-content: center;
+	align-items: center ;
+}
+
+.modal-wrapper {
+	padding: 32px 36px;
+	width: 630px;
+	height: 731px;
+	left: 405px;
+	top: 660px;
+	background: #FFFFFF;
+	border-radius: 10px;
 	display: flex;
 	flex-direction: column;
-} */
-/* .login input {
-	height: 50px;
-	font-size: 1.2em;
-	border: none;
-	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
-} */
+}
+
+.close {
+	padding-left: 618px;
+}
+.modal-wrapper h3 {
+	text-align: center;
+	font-family: "work Sans";
+	font-weight: 400;
+	font-size: 26px;
+	padding-top: 16px;
+}
+.foto-wrapper {
+	width: 100%;
+	min
+}
+.modal-wrapper button {
+	font-family: "Syne";
+	font-weight: 700;
+	font-size: 14px;
+	border-width: 0;
+	color: white;
+	background-color: #1D6154;
+	margin : 38px auto 23px auto ;
+	width: 237px;
+	height: 36px;
+	text-align: center;
+	border-radius: 60px ;
+}
+.modal-wrapper a {
+	text-align: center;
+	font-family: "Syne";
+	font-weight: 400;
+	font-size: 14px;
+	font-style: normal;
+	color: #D65353;
+}

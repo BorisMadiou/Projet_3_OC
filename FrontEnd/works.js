@@ -23,14 +23,18 @@ function generateWorks(works) {
 
 generateWorks(works);
 
-// Récupération de l'élément du DOM qui accueillera le bouton tous
+// Récupération de l'élément du DOM qui accueillera les boutons
 const buttonFiltersAll = document.querySelector(".all")
+const buttonFiltersObjects = document.querySelector(".objects")
+const buttonFiltersApartments = document.querySelector(".apartments")
+const buttonFiltersHotels = document.querySelector(".hotels")
+
+// Ajout listeners sur les boutons
 buttonFiltersAll.addEventListener("click", function (){
     document.querySelector(".gallery").innerHTML = "";
     generateWorks(works);
 })
 
-const buttonFiltersObjects = document.querySelector(".objects")
 buttonFiltersObjects.addEventListener("click", function (){
     const worksFiltered = works.filter(function (work){
         return work.category.name === "Objets"
@@ -39,7 +43,6 @@ buttonFiltersObjects.addEventListener("click", function (){
     generateWorks(worksFiltered);
 })
 
-const buttonFiltersApartments = document.querySelector(".apartments")
 buttonFiltersApartments.addEventListener("click", function (){
     const worksFiltered = works.filter(function (work){
         return work.category.name === "Appartements"
@@ -48,7 +51,6 @@ buttonFiltersApartments.addEventListener("click", function (){
     generateWorks(worksFiltered);
 })
 
-const buttonFiltersHotels = document.querySelector(".hotels")
 buttonFiltersHotels.addEventListener("click", function (){
     const worksFiltered = works.filter(function (work){
         return work.category.name === "Hotels & restaurants"
@@ -57,3 +59,15 @@ buttonFiltersHotels.addEventListener("click", function (){
     generateWorks(worksFiltered);
 })
 
+// affichage mode administrateur
+const token = window.sessionStorage.getItem("token")
+console.log(token);
+
+if (window.sessionStorage.getItem("token")) {
+    const admin = document.getElementsByClassName("admin");
+    console.log(admin);
+    for(let a of admin){
+        a.style.display = "flex" ;
+    }
+    document.querySelector(".filters").style.display = "none";  
+}

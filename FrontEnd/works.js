@@ -71,3 +71,62 @@ if (window.sessionStorage.getItem("token")) {
     }
     document.querySelector(".filters").style.display = "none";  
 }
+
+// affichage page modale
+
+const modifyGallery = document.getElementById("modify-gallery");
+const modal = document.getElementById("modal");
+
+modifyGallery.addEventListener("click", function (){
+    modal.style.visibility = "visible"
+})
+
+// fermeture page modale
+
+const crossClose = document.getElementById("close");
+crossClose.addEventListener("click", function (){
+    modal.style.visibility = "hidden"
+})
+
+
+
+
+
+
+
+
+
+// affichage des photos modifiables
+
+function generateWorksToModify(works) {
+    for (let i = 0; i < works.length; i++) {
+        const element = works[i];
+        // Récupération de l'élément du DOM qui accueillera les projets
+        const divWorks = document.querySelector(".foto-wrapper");
+        // Création d’une balise dédiée à un projet
+        const worksElement = document.createElement("figure");
+        // Création de la balise image 
+        const imageElement = document.createElement("img");
+        imageElement.src = element.imageUrl;
+        // Création de la balise titre 
+        const titleElement = document.createElement("figcaption");
+        titleElement.innerText = "éditer";
+        // Rattachement des balises
+        divWorks.appendChild(worksElement);
+        worksElement.appendChild(imageElement);
+        worksElement.appendChild(titleElement);
+        // ajout des logos sur les photos
+        // const trashIcon = document.createElement("img");
+        // trashIcon.classList.add("trash");
+        // trashIcon.src = "assets/icons/Trash.png";
+        // const moveIcon = document.createElement("img");
+        // moveIcon.classList.add("move");
+        // moveIcon.src = "assets/icons/Move.png";
+        // worksElement.appendChild(moveIcon);
+        // worksElement.appendChild(trashIcon);
+
+    }
+}
+
+generateWorksToModify(works)
+

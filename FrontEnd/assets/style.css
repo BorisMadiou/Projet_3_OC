@@ -175,6 +175,9 @@ li a:hover {
 	width: 100%;
 
 }
+#contact{
+	padding-top: 57px;
+}
 #contact,
 .login {
 	width: 379px;
@@ -305,7 +308,7 @@ footer nav ul {
 	color: black;
 }
 .intro {
-	margin:13px 0 0 5%;
+	margin:13px 1000px 0 5%;
 }
 .title-projects {
 	margin-bottom: 51px;
@@ -320,7 +323,8 @@ footer nav ul {
 
 /* ..........Modal........ */
 
-.modal {
+#modal {
+	visibility: hidden;
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -334,19 +338,21 @@ footer nav ul {
 }
 
 .modal-wrapper {
-	padding: 32px 36px;
+	box-sizing: border-box;
 	width: 630px;
 	height: 731px;
-	left: 405px;
-	top: 660px;
+	padding: 32px 36px;
 	background: #FFFFFF;
 	border-radius: 10px;
 	display: flex;
 	flex-direction: column;
 }
 
-.close {
-	padding-left: 618px;
+#close {
+	margin-left: 546px;
+}
+#close:hover{
+	cursor: pointer;
 }
 .modal-wrapper h3 {
 	text-align: center;
@@ -356,20 +362,29 @@ footer nav ul {
 	padding-top: 16px;
 }
 .foto-wrapper {
+	width: auto;
+	height: 433px;
+	margin: 36px 57px 0 57px;
+	border-bottom: 1px solid #B3B3B3;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+	grid-column-gap: 7px;
+	grid-row-gap: 10px;
+}
+.foto-wrapper img {
 	width: 100%;
-	min
 }
 .modal-wrapper button {
-	font-family: "Syne";
-	font-weight: 700;
-	font-size: 14px;
-	border-width: 0;
-	color: white;
-	background-color: #1D6154;
-	margin : 38px auto 23px auto ;
-	width: 237px;
-	height: 36px;
-	text-align: center;
+	font-family: 'Syne';
+	font-weight: 700 ;
+	font-size: 14px ;
+	border-width: 0 ;
+	color: white ;
+	background-color: #1D6154 ;
+	margin: 38px auto 23px auto ;
+	width: 237px ;
+	height: 36px ;
+	text-align: center ;
 	border-radius: 60px ;
 }
 .modal-wrapper a {

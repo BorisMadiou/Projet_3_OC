@@ -57,12 +57,12 @@ a {
 body {
 	max-width: 1140px;
 	margin:auto;
+	padding-top: 38px;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
 	background-color: #FFFEF8;
 }
 .title-nav {
-	margin-top: 38px;
 	display: flex;
 	justify-content: space-between;
 	padding: 0 0 0 50px;
@@ -109,6 +109,10 @@ img.insta {
 
 li a:hover {
 	color: #B1663C;
+}
+#logout:hover {
+	color: #B1663C;
+	cursor: pointer;
 }
 
 #introduction {
@@ -276,6 +280,7 @@ footer nav ul {
 	height: 59px;
 	background-color: black;
 	margin: 0;
+	margin-bottom: 38px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -373,6 +378,19 @@ footer nav ul {
 }
 .foto-wrapper img {
 	width: 100%;
+}
+.foto-wrapper .move {
+	width: auto;
+	position: absolute;
+	margin-top: -122px;
+	margin-left: 39.75px;	
+}
+
+.foto-wrapper .trash {
+	width: auto;
+	position: absolute;
+	margin-top: -122px;
+	margin-left: 59.75px;
 }
 .modal-wrapper button {
 	font-family: 'Syne';

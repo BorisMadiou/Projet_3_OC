@@ -69,8 +69,18 @@ if (window.sessionStorage.getItem("token")) {
     for(let a of admin){
         a.style.display = "flex" ;
     }
-    document.querySelector(".filters").style.display = "none";  
+    document.querySelector(".filters").style.display = "none";
+    document.querySelector(".logout").style.display = "none";
+    document.querySelector("body").style.paddingTop ="0"
 }
+
+//Déconnexion
+
+const logout = document.getElementById("logout");
+logout.addEventListener("click", function(){
+        sessionStorage.clear();
+        window.location.reload();
+})
 
 // affichage page modale
 
@@ -116,14 +126,14 @@ function generateWorksToModify(works) {
         worksElement.appendChild(imageElement);
         worksElement.appendChild(titleElement);
         // ajout des logos sur les photos
-        // const trashIcon = document.createElement("img");
-        // trashIcon.classList.add("trash");
-        // trashIcon.src = "assets/icons/Trash.png";
-        // const moveIcon = document.createElement("img");
-        // moveIcon.classList.add("move");
-        // moveIcon.src = "assets/icons/Move.png";
-        // worksElement.appendChild(moveIcon);
-        // worksElement.appendChild(trashIcon);
+        const trashIcon = document.createElement("img");
+        trashIcon.classList.add("trash");
+        trashIcon.src = "assets/icons/Trash.png";
+        const moveIcon = document.createElement("img");
+        moveIcon.classList.add("move");
+        moveIcon.src = "assets/icons/Move.png";
+        worksElement.appendChild(moveIcon);
+        worksElement.appendChild(trashIcon);
 
     }
 }

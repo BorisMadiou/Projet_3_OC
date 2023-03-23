@@ -1,6 +1,7 @@
 const reponse = await fetch('http://localhost:5678/api/works');
 const works = await reponse.json();
 
+// fonction affichage des photos
 function generateWorks(works) {
     for (let i = 0; i < works.length; i++) {
         const element = works[i];
@@ -65,7 +66,6 @@ console.log(token);
 
 if (window.sessionStorage.getItem("token")) {
     const admin = document.getElementsByClassName("admin");
-    console.log(admin);
     for(let a of admin){
         a.style.display = "flex" ;
     }
@@ -75,7 +75,6 @@ if (window.sessionStorage.getItem("token")) {
 }
 
 //Déconnexion
-
 const logout = document.getElementById("logout");
 logout.addEventListener("click", function(){
         sessionStorage.clear();
@@ -83,32 +82,34 @@ logout.addEventListener("click", function(){
 })
 
 // affichage page modale
-
 const modifyGallery = document.getElementById("modify-gallery");
 const modal = document.getElementById("modal");
-
+const modalWrapper = document.querySelector(".modal-wrapper");
 modifyGallery.addEventListener("click", function (){
-    modal.style.visibility = "visible"
+    modal.style.visibility = "visible";
+    modalWrapper.style.display = "flex";
+    generateWorksToModify(works);
 })
 
 // fermeture page modale
-
+function closeModal(){
+    modal.style.visibility = "hidden";
+    document.querySelector(".add-foto-wrapper").style.display = "none";
+    document.querySelector(".gallery").innerHTML = "";
+    generateWorks(works);
+}
+function stopPropagation(e){
+    e.stopPropagation();
+}
 const crossClose = document.getElementById("close");
-crossClose.addEventListener("click", function (){
-    modal.style.visibility = "hidden"
-})
+crossClose.addEventListener("click", closeModal);
+document.getElementById("modal").addEventListener("click", closeModal);
+document.querySelector(".modal-wrapper").addEventListener("click", stopPropagation);
+document.querySelector(".add-foto-wrapper").addEventListener("click", stopPropagation);
 
-
-
-
-
-
-
-
-
-// affichage des photos modifiables
-
+// fonction affichage des photos modifiables
 function generateWorksToModify(works) {
+    document.querySelector(".foto-wrapper").innerHTML = "";
     for (let i = 0; i < works.length; i++) {
         const element = works[i];
         // Récupération de l'élément du DOM qui accueillera les projets
@@ -125,7 +126,7 @@ function generateWorksToModify(works) {
         divWorks.appendChild(worksElement);
         worksElement.appendChild(imageElement);
         worksElement.appendChild(titleElement);
-        // ajout des logos sur les photos
+        // ajout des icones sur les photos
         const trashIcon = document.createElement("img");
         trashIcon.classList.add("trash");
         trashIcon.src = "assets/icons/Trash.png";
@@ -134,9 +135,104 @@ function generateWorksToModify(works) {
         moveIcon.src = "assets/icons/Move.png";
         worksElement.appendChild(moveIcon);
         worksElement.appendChild(trashIcon);
-
     }
+    trash();
 }
 
-generateWorksToModify(works)
+// fonction icone corbeille
+function trash() {
+    const trash = document.querySelectorAll(".trash");  
+    const trashArray = Array.from(trash);
+    for(let t of trashArray){
+        t.addEventListener("click", function (){
+            console.log(trashArray.indexOf(t));
+            works.splice(trashArray.indexOf(t), 1);
+            document.querySelector(".foto-wrapper").innerHTML = "";
+            generateWorksToModify(works);
+        })
+    }
+}
+    // trash.forEach(function (trash){
+    //  trash.addEventListener("click", function (){
+            //         trash.parentElement.remove();
+        //})
+    //}) 
+    //}
+
+    // for (let i = 0; i < trash.length; i++){
+    //     trash[i].addEventListener("click", function (){
+    //         works.splice(i, 1);
+    //         console.log(works);
+    //         //document.querySelector(".foto-wrapper").innerHTML = "";
+    //         //generateWorksToModify(works);
+             
+    //     }
+    
+// supprimer la gallery
+const deleteGallery = document.querySelector(".delete-gallery");
+deleteGallery.addEventListener("click", function(){
+       works.splice(0, works.length);
+       document.querySelector(".foto-wrapper").innerHTML = "";
+       generateWorksToModify(works);  
+    })
+
+//Modale ajouter projet
+
+const addFotoGalery = document.querySelector(".add-foto-galery");
+addFotoGalery.addEventListener("click", function(){
+    document.querySelector(".modal-wrapper").style.display = "none";
+    document.querySelector(".add-foto-wrapper").style.display = "flex";
+    document.querySelectorAll(".mask-foto").forEach(element => element.style.display = "inline");
+
+})
+   
+
+    //chargement de photo
+
+
+const inputFoto = document.getElementById("file");
+inputFoto.addEventListener("change",function(e){
+    if (e.target.files.length > 0){
+        const src = URL.createObjectURL(e.target.files[0]);
+        const fotoPreview = document.createElement("img");
+        fotoPreview.src = src;
+        document.querySelector(".add-foto").appendChild(fotoPreview);
+        document.querySelectorAll(".mask-foto").forEach(element => element.style.display = "none");
+        console.log(inputFoto.files);  
+    }
+})
+  
+    //icone flèche retour
+ const arrowBack = document.getElementById("arrow-back");
+ arrowBack.addEventListener("click", function(){
+     document.querySelector(".modal-wrapper").style.display = "flex";
+     document.querySelector(".add-foto-wrapper").style.display = "none";
+ })
+    //icone croix 
+ const closeAddFoto = document.getElementById("close-add-foto");
+ closeAddFoto.addEventListener("click", function(){
+    closeModal();
+    if (inputFoto.files){
+    //    const filesArray = [inputFoto.files];
+    //    filesArray.splice(0,1);
+    }
+})
+ 
+    //Ajout d'un projet
+const title = document.getElementById("title");
+const category = document.getElementById("category");
+const validateButton = document.getElementById("validate");
+console.log(title.value);
+if (title.value && category.value){
+    validateButton.classList.add("active");
+
+const newProject = {
+    "id": works.length,
+    "title": title.value,
+    "imageUrl": inputFoto.files,
+    "categoryId": category.value,
+    "userId": 0
+  }
+}
+//Publier les changements
 

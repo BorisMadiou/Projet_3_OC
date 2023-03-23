@@ -288,7 +288,7 @@ footer nav ul {
 .publish button {
 	min-width: 100px;
 	height: 37px;
-	font-family: "work sans" ;
+	font-family: "Work Sans" ;
 	padding: 0 10px 0 10px;
 	color: black;
 	background-color: rgb(255, 255, 255);
@@ -298,7 +298,9 @@ footer nav ul {
 	border-radius: 60px;
 	margin-left: 20px;
 }
-
+.publish button:hover{
+	cursor: pointer;
+}
 .modify {
 	display: flex;
 	align-items: center;
@@ -341,6 +343,7 @@ footer nav ul {
 	justify-content: center;
 	align-items: center ;
 }
+/* ..........Modal galerie........ */
 
 .modal-wrapper {
 	box-sizing: border-box;
@@ -361,7 +364,7 @@ footer nav ul {
 }
 .modal-wrapper h3 {
 	text-align: center;
-	font-family: "work Sans";
+	font-family: "Work Sans";
 	font-weight: 400;
 	font-size: 26px;
 	padding-top: 16px;
@@ -385,12 +388,17 @@ footer nav ul {
 	margin-top: -122px;
 	margin-left: 39.75px;	
 }
-
+.move:hover {
+	cursor: pointer;
+}
 .foto-wrapper .trash {
 	width: auto;
 	position: absolute;
 	margin-top: -122px;
 	margin-left: 59.75px;
+}
+.trash:hover {
+	cursor: pointer;
 }
 .modal-wrapper button {
 	font-family: 'Syne';
@@ -405,6 +413,9 @@ footer nav ul {
 	text-align: center ;
 	border-radius: 60px ;
 }
+.modal-wrapper button:hover {
+	cursor: pointer;
+}
 .modal-wrapper a {
 	text-align: center;
 	font-family: "Syne";
@@ -412,4 +423,130 @@ footer nav ul {
 	font-size: 14px;
 	font-style: normal;
 	color: #D65353;
+}
+
+/* ..........Modal ajout photo........ */
+
+.add-foto-wrapper {
+	box-sizing: border-box;
+	width: 630px;
+	height: 670px;
+	padding: 30px 30px 55px 30px;
+	background: #FFFFFF;
+	border-radius: 10px;
+	display: none;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+}
+.icon {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 16px;
+}
+.icon svg:hover {
+	cursor: pointer;
+}
+.add-foto {
+	box-sizing: border-box;
+	width: 420px;
+	height: 169px;
+	margin-bottom: 30px;
+	background-color: #E8F1F6;
+	border-radius: 3px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	
+}
+.add-foto img {
+	height: 169px;
+	object-fit: contain;
+}
+.mask-foto {
+	display: inline;
+}
+.add-foto svg {
+	margin: 28px;
+	margin-bottom: 21px;
+}
+.add-foto-wrapper h3 {
+	font-family: 'Work Sans';
+	font-weight: 400;
+	font-size: 26px;
+	margin-bottom: 36px;
+}
+.add-button {
+	box-sizing: border-box;
+	width: 173px;
+	height: 36px;
+	border: none;
+	background-color: #CBD6DC;
+	border-radius: 60px;
+	margin-bottom: 7px;
+	font-family: 'Work Sans';
+	font-weight: 500;
+	font-size: 14px;
+	color: #306685;
+	text-align: center;
+	padding-top: 10px;
+}
+.add-button:hover {
+	cursor: pointer;
+}
+#file {
+	display: none;
+}
+.add-foto p {
+	margin-bottom: 19px;
+	font-family: 'Work Sans';
+	font-weight: 400;
+	font-size: 10px;
+}
+.add-foto-wrapper form {
+	width: 420px;
+	height: 222px;
+	margin: 0 0 32px 0;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	border-bottom: 1px solid #B3B3B3;
+	padding-bottom: 26px;
+}
+.add-foto-wrapper form .input {
+	width: 100%;
+	height: 51px;
+	margin-bottom: 21px;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	font-family: 'Work Sans';
+	font-weight: 400;
+	font-size: 14px;
+	color: #444444;
+}
+.add-foto-wrapper form label {
+	margin-bottom: 10px;
+	font-family: 'Work Sans';
+	font-weight: 500;
+	font-size: 14px;
+}
+#validate {
+	box-sizing: border-box;
+	width: 237px;
+	height: 39px;
+	background: #A7A7A7;
+	border-radius: 60px;
+	border: none;
+	font-family: 'Syne';
+	font-weight: 700;
+	font-size: 14px;
+	color: #FFFFFF;
+}
+.active {
+	background: #1D6154;
+}
+.active:hover {
+	cursor: pointer;
 }

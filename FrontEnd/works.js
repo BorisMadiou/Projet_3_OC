@@ -191,14 +191,15 @@ addFotoGalery.addEventListener("click", function(){
 
 
 const inputFoto = document.getElementById("file");
+const fotoPreview = document.createElement("img");
 inputFoto.addEventListener("change",function(e){
     if (e.target.files.length > 0){
         const src = URL.createObjectURL(e.target.files[0]);
-        const fotoPreview = document.createElement("img");
         fotoPreview.src = src;
         document.querySelector(".add-foto").appendChild(fotoPreview);
         document.querySelectorAll(".mask-foto").forEach(element => element.style.display = "none");
-        console.log(inputFoto.files);  
+        console.log(inputFoto);
+        console.log(inputFoto.value);
     }
 })
   
@@ -213,8 +214,9 @@ inputFoto.addEventListener("change",function(e){
  closeAddFoto.addEventListener("click", function(){
     closeModal();
     if (inputFoto.files){
-    //    const filesArray = [inputFoto.files];
-    //    filesArray.splice(0,1);
+    console.log(inputFoto.files);    
+    // const filesArray = [inputFoto.files];
+    // filesArray.splice(0,1);
     }
 })
  
@@ -222,17 +224,22 @@ inputFoto.addEventListener("change",function(e){
 const title = document.getElementById("title");
 const category = document.getElementById("category");
 const validateButton = document.getElementById("validate");
-console.log(title.value);
-if (title.value && category.value){
-    validateButton.classList.add("active");
+
+
+validateButton.classList.add("active");
 
 const newProject = {
     "id": works.length,
     "title": title.value,
-    "imageUrl": inputFoto.files,
+    "imageUrl": inputFoto.value,
     "categoryId": category.value,
     "userId": 0
   }
-}
+
 //Publier les changements
 
+const publishButton = document.getElementById("publish-button");
+publishButton.addEventListener("click", function(e){
+e.preventDefault();
+
+})

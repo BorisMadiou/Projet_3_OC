@@ -158,21 +158,6 @@ function trash() {
         })
     }
 }
-    // trash.forEach(function (trash){
-    //  trash.addEventListener("click", function (){
-            //         trash.parentElement.remove();
-        //})
-    //}) 
-    //}
-
-    // for (let i = 0; i < trash.length; i++){
-    //     trash[i].addEventListener("click", function (){
-    //         works.splice(i, 1);
-    //         console.log(works);
-    //         //document.querySelector(".foto-wrapper").innerHTML = "";
-    //         //generateWorksToModify(works);
-             
-    //     }
     
 // supprimer la gallery
 const deleteGallery = document.querySelector(".delete-gallery");
@@ -198,22 +183,7 @@ addFotoGalery.addEventListener("click", function(){
 })
    
 
-    //chargement de photo
-
-const inputFoto = document.getElementById("file");
-let fotoPreview = document.createElement("img");
-let src ;
-inputFoto.addEventListener("change",function(e){
-    if (e.target.files.length > 0){
-        src = URL.createObjectURL(e.target.files[0]);
-        fotoPreview.src = src;
-        fotoPreview.style.display = "block";
-        document.querySelector(".add-foto").appendChild(fotoPreview);
-        document.querySelectorAll(".mask-foto").forEach(element => element.style.display = "none");
-    }
-    inputAnalyseFoto();
-    inputAnalyse();
-})
+    
 
   
     //icone flèche retour
@@ -293,24 +263,44 @@ function inputAnalyse() {
 console.log("work0", works[0]);
 
 
-//Création nouveau projet
+////Création nouveau projet
 
+//chargement de photo
 
+const inputFoto = document.getElementById("file");
+let fotoPreview = document.createElement("img");
+let src ;
+inputFoto.addEventListener("change",function(e){
+    if (e.target.files.length > 0){
+        src = URL.createObjectURL(e.target.files[0]);
+        fotoPreview.src = src;
+        fotoPreview.style.display = "block";
+        document.querySelector(".add-foto").appendChild(fotoPreview);
+        document.querySelectorAll(".mask-foto").forEach(element => element.style.display = "none");
+    }
+    inputAnalyseFoto();
+    inputAnalyse();
+})
 
-  validateButton.addEventListener("click", function() {
-    let newWork = {
-        "id": 1,
-        "title": title.value,
-        "imageUrl": src,
-        "categoryId": category.value,
-        "userId": 1
-      }
+// Formulaire
+
+let form;
+let formData;
+
+validateButton.addEventListener("click", function(e) {
+    e.preventDefault();
+    form = document.getElementById('add-form');
+    formData = new FormData(form);
+    formData.append("imageUrl", src);
+    const newWork = {};
+    for (let [key, value] of formData) {
+        newWork[key] = value;
+    }
     works.push(newWork);
     closeModal();
-    console.log(works[9]);
-    console.log(title.value);
-    console.log(src);
-    console.log(category.value);
+    for (const [key, value] of formData.entries()) {
+        console.log(`${key}: ${value}`);
+      }
 } ) 
 
 //Publier les changements
@@ -318,16 +308,15 @@ console.log("work0", works[0]);
 const publishButton = document.getElementById("publish-button");
 publishButton.addEventListener("click", async function(e){
     e.preventDefault();
-    console.log(works[9]);
-
 
       await fetch('http://localhost:5678/api/works', {
         method: 'POST',
         headers: {
+            'accept': 'application/json',
+            'Content-Type': 'multipart/form-data',
             'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json;charset=utf-8'
-          },
-        body: JSON.stringify(works[9])
+            },
+        body: formData
         })
         .then(response => {
           if (!response.ok) {
@@ -347,7 +336,7 @@ async function deleteAll(){
     const works2 = await reponse2.json();
     for (let i = 1; i <= works2.length; i++) {
 
-    await fetch('http://localhost:5678/api/works/`${i}`', {
+        await fetch(`http://localhost:5678/api/works/${i}`, {
          method: 'DELETE',
          headers: {
              'Authorization': `Bearer ${token}`,

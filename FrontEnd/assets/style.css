@@ -448,6 +448,21 @@ footer nav ul {
 .icon svg:hover {
 	cursor: pointer;
 }
+
+.add-foto-wrapper h3 {
+	font-family: 'Work Sans';
+	font-weight: 400;
+	font-size: 26px;
+	margin-bottom: 36px;
+}
+#add-form {
+	width: 420px;
+	height: 489px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+}
 .add-foto {
 	box-sizing: border-box;
 	width: 420px;
@@ -459,7 +474,6 @@ footer nav ul {
 	flex-direction: column;
 	justify-content: space-between;
 	align-items: center;
-	
 }
 .add-foto img {
 	height: 169px;
@@ -471,12 +485,6 @@ footer nav ul {
 .add-foto svg {
 	margin: 28px;
 	margin-bottom: 21px;
-}
-.add-foto-wrapper h3 {
-	font-family: 'Work Sans';
-	font-weight: 400;
-	font-size: 26px;
-	margin-bottom: 36px;
 }
 .add-button {
 	box-sizing: border-box;
@@ -505,16 +513,7 @@ footer nav ul {
 	font-weight: 400;
 	font-size: 10px;
 }
-.add-foto-wrapper form {
-	width: 420px;
-	height: 222px;
-	margin: 0 0 32px 0;
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-	border-bottom: 1px solid #B3B3B3;
-	padding-bottom: 26px;
-}
+
 .add-foto-wrapper form .input {
 	width: 100%;
 	height: 51px;
@@ -531,6 +530,15 @@ footer nav ul {
 	font-family: 'Work Sans';
 	font-weight: 500;
 	font-size: 14px;
+}
+label[for="title"], label[for="category"] {
+	width: 100%;
+}
+#border {
+	width: 100%;
+	border-bottom:  1px solid #B3B3B3;
+	margin-bottom: 32px;
+	margin-top: 26px;
 }
 #validate {
 	box-sizing: border-box;

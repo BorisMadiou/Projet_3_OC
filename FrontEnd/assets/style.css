@@ -255,7 +255,7 @@ footer nav ul {
 	height: 1024px;
 }
 
-#login {
+#login-title {
 	padding-top: 150px;
 	text-align: center;
 }
@@ -536,13 +536,15 @@ footer nav ul {
 	box-sizing: border-box;
 	width: 237px;
 	height: 39px;
-	background: #A7A7A7;
 	border-radius: 60px;
 	border: none;
 	font-family: 'Syne';
 	font-weight: 700;
 	font-size: 14px;
 	color: #FFFFFF;
+}
+.inactive {
+	background: #A7A7A7;
 }
 .active {
 	background: #1D6154;

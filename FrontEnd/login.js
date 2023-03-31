@@ -1,7 +1,3 @@
-
-
-
-async function connexion () {
     const formLogin = document.querySelector(".form-connexion")
 
     formLogin.addEventListener("submit", async function(event) {
@@ -16,9 +12,10 @@ async function connexion () {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(login)
         });
-        const reponseConnection = await reponse.json() ;
+        const connection = await reponse.json();
+        console.log(connection);
         if (reponse.ok) {
-            window.sessionStorage.setItem("token", reponseConnection.token);
+            window.sessionStorage.setItem("token", connection.token);
             console.log(window.sessionStorage.getItem("token"));
             document.location.href="index.html";
         } else if (reponse.status == "404"){
@@ -30,7 +27,7 @@ async function connexion () {
         }
     });
     
-};
 
-connexion ();
+
+
 

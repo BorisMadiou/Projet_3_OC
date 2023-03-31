@@ -20,7 +20,7 @@
 				</svg>				
 			<p class="white">Mode édition</p>
 		</div>
-		<button>publier les changements</button>
+		<button id="publish-button">publier les changements</button>
 	</section>
 	<div class="title-nav">
 		<h1>Sophie Bluel <span>Architecte d'inteérieur</span></h1>
@@ -28,7 +28,7 @@
 			<ul>
 				<li><a href="#projects">projets</a></li>
 				<li><a href="#contact">contact</a></li>
-				<li class="logout"><a href="login.html">login</a></li>
+				<li class="logout" id="login"><a href="login.html">login</a></li>
 				<li class="admin" id="logout">logout</li>
 				<li><a href="#"><img class="insta" src="./assets/icons/instagram.png" alt="Instagram"></a></li>
 			</ul>
@@ -128,16 +128,16 @@
 		</div>
 		<form action="#" method="post">
 			<label for="title">Titre</label>
-			<input class="input" type="text" name="title" id="title">
+			<input class="input" type="text" required="required" name="title" id="title">
 			<label for="category">Catégorie</label>
-			<select class="input"name="category" id="category">
-				<option value="nothing"></option>
-				<option value="objects">Objets</option>
-				<option value="apartments">Appartements</option>
-				<option value="hotels-and-restaurants">Hôtels & restaurants</option>
+			<select class="input"required="required" name="category" id="category">
+				<option value="nothing" ></option>
+				<option value="1">Objets</option>
+				<option value="2">Appartements</option>
+				<option value="3">Hôtels & restaurants</option>
 			</select> 
 		</form>
-		<button id="validate">Valider</button>
+		<button id="validate" class="inactive">Valider</button>
 	</div>
 </section>
 

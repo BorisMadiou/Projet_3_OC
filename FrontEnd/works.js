@@ -11,7 +11,11 @@ function generateWorks(works) {
         const worksElement = document.createElement("figure");
         // Création de la balise image 
         const imageElement = document.createElement("img");
-        imageElement.src = element.imageUrl;
+        if (element.imageUrl) {
+            imageElement.src = element.imageUrl;
+        } else {
+        imageElement.src = element.image;
+        }
         // Création de la balise titre 
         const titleElement = document.createElement("figcaption");
         titleElement.innerText = element.title;
@@ -21,9 +25,8 @@ function generateWorks(works) {
         worksElement.appendChild(titleElement);
     }
 }
-
 generateWorks(works);
-
+console.log(works);
 // Récupération de l'élément du DOM qui accueillera les boutons
 const buttonFiltersAll = document.querySelector(".all")
 const buttonFiltersObjects = document.querySelector(".objects")
@@ -38,7 +41,7 @@ buttonFiltersAll.addEventListener("click", function (){
 
 buttonFiltersObjects.addEventListener("click", function (){
     const worksFiltered = works.filter(function (work){
-        return work.category.name === "1"
+        return work.categoryId === 1
     })
     document.querySelector(".gallery").innerHTML = "";
     generateWorks(worksFiltered);
@@ -46,7 +49,7 @@ buttonFiltersObjects.addEventListener("click", function (){
 
 buttonFiltersApartments.addEventListener("click", function (){
     const worksFiltered = works.filter(function (work){
-        return work.category.name === "2"
+        return work.categoryId === 2
     })
     document.querySelector(".gallery").innerHTML = "";
     generateWorks(worksFiltered);
@@ -54,7 +57,7 @@ buttonFiltersApartments.addEventListener("click", function (){
 
 buttonFiltersHotels.addEventListener("click", function (){
     const worksFiltered = works.filter(function (work){
-        return work.category.name === "Hotels & restaurants"
+        return work.categoryId === 3
     })
     document.querySelector(".gallery").innerHTML = "";
     generateWorks(worksFiltered);
@@ -123,7 +126,11 @@ function generateWorksToModify(works) {
         const worksElement = document.createElement("figure");
         // Création de la balise image 
         const imageElement = document.createElement("img");
-        imageElement.src = element.imageUrl;
+        if (element.imageUrl) {
+            imageElement.src = element.imageUrl;
+        } else {
+        imageElement.src = element.image;
+        }
         // Création de la balise titre 
         const titleElement = document.createElement("figcaption");
         titleElement.innerText = "éditer";
@@ -144,33 +151,77 @@ function generateWorksToModify(works) {
     trash();
 }
 
-// fonction icone corbeille
+//// fonctions supprimer projets
+
+// Listener supprimer un projet
+
 function trash() {
     const trash = document.querySelectorAll(".trash");  
     const trashArray = Array.from(trash);
     for(let t of trashArray){
-        t.addEventListener("click", function (){
-            console.log(trashArray.indexOf(t));
-            works.splice(trashArray.indexOf(t), 1);
-            document.querySelector(".foto-wrapper").innerHTML = "";
-            generateWorksToModify(works);
+    t.addEventListener("click", async function (){
+        await fetch(`http://localhost:5678/api/works/${works[trashArray.indexOf(t)].id}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json;charset=utf-8'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+        throw new Error('Erreur lors de la suppression de la ressource');
+        }
+        console.log('Ressource supprimée avec succès');
+    })
+        .catch(error => {
+        console.error(error);
+    });
+    works.splice(trashArray.indexOf(t), 1);
+    document.querySelector(".foto-wrapper").innerHTML = "";
+    generateWorksToModify(works);
             
         })
     }
-}
+    console.log(works);
+};
+
     
 // supprimer la gallery
-const deleteGallery = document.querySelector(".delete-gallery");
-deleteGallery.addEventListener("click", function(){
-       works.splice(0, works.length);
-       document.querySelector(".foto-wrapper").innerHTML = "";
-       generateWorksToModify(works);  
-    })
+//fonction supprimer la gallery
+async function deleteAll(){
 
+    for (let i = 0; i < works.length; i++) {
+
+        await fetch(`http://localhost:5678/api/works/${works[i].id}`, {
+         method: 'DELETE',
+         headers: {
+             'Authorization': `Bearer ${token}`,
+             'Content-Type': 'application/json;charset=utf-8'
+           }
+       })
+       .then(response => {
+         if (!response.ok) {
+           throw new Error('Erreur lors de la suppression de la ressource');
+         }
+         console.log('Ressource supprimée avec succès');
+       })
+         .catch(error => {
+         console.error(error);
+       });
+    } 
+}
+// Listener supprimer tous les projets
+const deleteGallery = document.querySelector(".delete-gallery");
+deleteGallery.addEventListener("click", function () {
+deleteAll();
+works.length = 0;
+document.querySelector(".foto-wrapper").innerHTML = "";
+generateWorksToModify(works);
+});
 //Modale ajouter projet
 
 const addFotoGalery = document.querySelector(".add-foto-galery");
-addFotoGalery.addEventListener("click", function(){
+addFotoGalery.addEventListener("click", function() {
     document.querySelector(".modal-wrapper").style.display = "none";
     document.querySelector(".add-foto-wrapper").style.display = "flex";
     document.querySelectorAll(".mask-foto").forEach(element => element.style.display = "inline");
@@ -191,24 +242,12 @@ addFotoGalery.addEventListener("click", function(){
  arrowBack.addEventListener("click", function(){
      document.querySelector(".modal-wrapper").style.display = "flex";
      document.querySelector(".add-foto-wrapper").style.display = "none";
+     generateWorksToModify(works);
  })
     //icone croix 
  const closeAddFoto = document.getElementById("close-add-foto");
  closeAddFoto.addEventListener("click", function(){
     closeModal();
-    if (inputFoto.files){
-        console.log(inputFoto.files);
-        // console.log('fotoPreview',fotoPreview);
-        // console.log('fotoPreview.src',fotoPreview.src);
-        // console.log('inputFoto', inputFoto);
-        // fotoPreview.src = "";
-        // src = '';
-        // console.log('src', src);       
-        // fotoPreview.remove();
-        // console.log('inputPhoto', inputFoto.files);   
-    // const filesArray = [inputFoto.files];
-    // filesArray.splice(0,1);
-    }
 })
  
     //Ajout d'un projet
@@ -253,105 +292,103 @@ function inputAnalyseFoto() {
 function inputAnalyse() {
     if (titleOk && categoryOk && fotoOk) {
         validateButton.classList.add("active");
+        validateButton.disabled = false;
     } else {
         validateButton.classList.remove("active");
+        validateButton.disabled = true;
     }
 }
 
 
 
-console.log("work0", works[0]);
+console.log("works", works);
 
 
 ////Création nouveau projet
 
-//chargement de photo
+//Fonction chargement de photo
 
 const inputFoto = document.getElementById("file");
 let fotoPreview = document.createElement("img");
-let src ;
+let file;
+
 inputFoto.addEventListener("change",function(e){
     if (e.target.files.length > 0){
-        src = URL.createObjectURL(e.target.files[0]);
-        fotoPreview.src = src;
-        fotoPreview.style.display = "block";
-        document.querySelector(".add-foto").appendChild(fotoPreview);
-        document.querySelectorAll(".mask-foto").forEach(element => element.style.display = "none");
+        const reader = new FileReader();
+        reader.readAsDataURL(e.target.files[0]);
+        reader.onload = function() {
+            fotoPreview.src = reader.result;
+            fotoPreview.style.display = "block";
+            document.querySelector(".add-foto").appendChild(fotoPreview);
+            document.querySelectorAll(".mask-foto").forEach(element => element.style.display = "none");
+            file = e.target.files[0];
+            console.log("e.target.files[0]",e.target.files[0]);
+        };
     }
     inputAnalyseFoto();
     inputAnalyse();
 })
+// Fonction d'envoie d'un nouveau projet
+async function addNewProject() {
+    await fetch('http://localhost:5678/api/works', {
+    method: 'POST',
+    headers: {
+        'Authorization': `Bearer ${token}`,
+        'accept': 'application/json',
+        },
+    body: formData
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Erreur lors de la création de la ressource');
+      }
+      console.log('Ressource créée avec succès');
+    })
+    .catch(error => {
+      console.error(error);
+    })
+    newWork = {
+        title : title.value,
+        category : category.value,
+        image : fotoPreview.src
+    };
+    works.push(newWork);
+    fotoPreview.remove();
+    document.querySelector(".add-foto-wrapper").style.display = "flex";
+    document.querySelectorAll(".mask-foto").forEach(element => element.style.display = "inline");
+    title.value ="";
+    category.value = "nothing";
+    validateButton.classList.remove("active");
+    validateButton.disabled = true;
+    
+};
 
-// Formulaire
+// Fonction de création de formulaire
 
 let form;
 let formData;
-
+let newWork;
 validateButton.addEventListener("click", function(e) {
     e.preventDefault();
     form = document.getElementById('add-form');
     formData = new FormData(form);
-    formData.append("imageUrl", src);
-    const newWork = {};
-    for (let [key, value] of formData) {
-        newWork[key] = value;
-    }
-    works.push(newWork);
-    closeModal();
+    formData.append("image", file);
+    formData.append("title", title.value);
+    formData.append("category", category.value);
     for (const [key, value] of formData.entries()) {
-        console.log(`${key}: ${value}`);
-      }
-} ) 
+        console.log("formData",`${key}: ${value}`);
+      };
+    addNewProject()
+}) 
 
 //Publier les changements
 
 const publishButton = document.getElementById("publish-button");
 publishButton.addEventListener("click", async function(e){
     e.preventDefault();
-
-      await fetch('http://localhost:5678/api/works', {
-        method: 'POST',
-        headers: {
-            'accept': 'application/json',
-            'Content-Type': 'multipart/form-data',
-            'Authorization': `Bearer ${token}`,
-            },
-        body: formData
-        })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Erreur lors de la création de la ressource');
-          }
-          console.log('Ressource créée avec succès');
-        })
-        .catch(error => {
-          console.error(error);
-        });
-        
+    document.querySelector(".gallery").innerHTML = "";
+    generateWorks(works);
+    
 })
 
-//fonction supprimer tous les projets
-async function deleteAll(){
-    const reponse2 = await fetch('http://localhost:5678/api/works');
-    const works2 = await reponse2.json();
-    for (let i = 1; i <= works2.length; i++) {
 
-        await fetch(`http://localhost:5678/api/works/${i}`, {
-         method: 'DELETE',
-         headers: {
-             'Authorization': `Bearer ${token}`,
-             'Content-Type': 'application/json;charset=utf-8'
-           }
-       })
-       .then(response => {
-         if (!response.ok) {
-           throw new Error('Erreur lors de la suppression de la ressource');
-         }
-         console.log('Ressource supprimée avec succès');
-       })
-         .catch(error => {
-         console.error(error);
-       });
-       console.log("works2", works2);
-    }
-}

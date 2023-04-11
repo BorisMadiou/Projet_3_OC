@@ -275,7 +275,9 @@ footer nav ul {
 }
 
 /* ..............Admin................. */
-
+#login-admin {
+	font-weight: 600;
+}
 .publish {
 	height: 59px;
 	background-color: black;
@@ -417,6 +419,7 @@ footer nav ul {
 	cursor: pointer;
 }
 .modal-wrapper a {
+	margin: 0 auto 0 auto;
 	text-align: center;
 	font-family: "Syne";
 	font-weight: 400;

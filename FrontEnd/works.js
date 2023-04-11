@@ -1,143 +1,165 @@
-const reponse = await fetch('http://localhost:5678/api/works');
-const works = await reponse.json();
+////Récupération et affichage des projets
+
+// Récupération de l'élément du DOM qui accueillera les projets
+
+const gallery = document.querySelector(".gallery");
+
+//fonction de récupération des travaux
+
+let reponse;
+let works;
+async function getWorks() {
+    reponse = await fetch('http://localhost:5678/api/works');
+    works = await reponse.json();
+}
 
 // fonction affichage des photos
-function generateWorks(works) {
+
+function displayWorks(works) {
     for (let i = 0; i < works.length; i++) {
         const element = works[i];
-        // Récupération de l'élément du DOM qui accueillera les projets
-        const divWorks = document.querySelector(".gallery");
         // Création d’une balise dédiée à un projet
-        const worksElement = document.createElement("figure");
+        const figure = document.createElement("figure");
         // Création de la balise image 
-        const imageElement = document.createElement("img");
-        if (element.imageUrl) {
-            imageElement.src = element.imageUrl;
-        } else {
-        imageElement.src = element.image;
-        }
+        const image = document.createElement("img");
+        image.src = element.imageUrl || element.image;
         // Création de la balise titre 
         const titleElement = document.createElement("figcaption");
         titleElement.innerText = element.title;
         // Rattachement des balises
-        divWorks.appendChild(worksElement);
-        worksElement.appendChild(imageElement);
-        worksElement.appendChild(titleElement);
+        gallery.appendChild(figure);
+        figure.appendChild(image);
+        figure.appendChild(titleElement);
     }
 }
-generateWorks(works);
-console.log(works);
-// Récupération de l'élément du DOM qui accueillera les boutons
+//// Initialisation
+
+async function init() {
+    await getWorks();
+    displayWorks(works);
+    admin();
+    console.log(works);
+};
+
+init();
+
+////Filtrage des projets
+
 const buttonFiltersAll = document.querySelector(".all")
 const buttonFiltersObjects = document.querySelector(".objects")
 const buttonFiltersApartments = document.querySelector(".apartments")
 const buttonFiltersHotels = document.querySelector(".hotels")
 
-// Ajout listeners sur les boutons
+// Ajout de listeners sur les boutons de filtrages
+
 buttonFiltersAll.addEventListener("click", function (){
-    document.querySelector(".gallery").innerHTML = "";
-    generateWorks(works);
+    gallery.innerHTML = "";
+    displayWorks(works);
 })
 
 buttonFiltersObjects.addEventListener("click", function (){
-    const worksFiltered = works.filter(function (work){
-        return work.categoryId === 1
-    })
-    document.querySelector(".gallery").innerHTML = "";
-    generateWorks(worksFiltered);
+    const worksFiltered = works.filter(work => work.categoryId === 1);
+    gallery.innerHTML = "";
+    displayWorks(worksFiltered);
 })
 
 buttonFiltersApartments.addEventListener("click", function (){
-    const worksFiltered = works.filter(function (work){
-        return work.categoryId === 2
-    })
-    document.querySelector(".gallery").innerHTML = "";
-    generateWorks(worksFiltered);
+    const worksFiltered = works.filter(work => work.categoryId === 2);
+    gallery.innerHTML = "";
+    displayWorks(worksFiltered);
 })
 
 buttonFiltersHotels.addEventListener("click", function (){
-    const worksFiltered = works.filter(function (work){
-        return work.categoryId === 3
-    })
-    document.querySelector(".gallery").innerHTML = "";
-    generateWorks(worksFiltered);
+    const worksFiltered = works.filter(work => work.categoryId === 3);
+    gallery.innerHTML = "";
+    displayWorks(worksFiltered);
 })
 
 
+//// affichage mode administrateur
 
-
-// affichage mode administrateur
 const token = window.sessionStorage.getItem("token");
 
+// Fonction administrateur connecté
 
-if (window.sessionStorage.getItem("token")) {
-    const admin = document.getElementsByClassName("admin");
-    for(let a of admin){
-        a.style.display = "flex" ;
+function admin() {
+    if (token) {
+        const admin = document.getElementsByClassName("admin");
+        for(let a of admin){
+            a.style.display = "flex" ;
+        }
+        document.querySelector(".filters").style.display = "none";
+        document.querySelector(".logout").style.display = "none";
+        document.querySelector("body").style.paddingTop ="0"
     }
-    document.querySelector(".filters").style.display = "none";
-    document.querySelector(".logout").style.display = "none";
-    document.querySelector("body").style.paddingTop ="0"
 }
 
 //Déconnexion
+
 const logout = document.getElementById("logout");
 logout.addEventListener("click", function(){
         sessionStorage.clear();
         window.location.reload();
 })
 
-//...............MODALES.......................
+//// Page modale
 
 // affichage page modale
+
 const modifyGallery = document.getElementById("modify-gallery");
 const modal = document.getElementById("modal");
 const modalWrapper = document.querySelector(".modal-wrapper");
+const addFotoWrapper = document.querySelector(".add-foto-wrapper");
+
+// Ajout de listeners sur le bouton modifier
+
 modifyGallery.addEventListener("click", function (){
     modal.style.visibility = "visible";
     modalWrapper.style.display = "flex";
+    document.body.style.overflow = "hidden";
     generateWorksToModify(works);
 })
 
 // fermeture page modale
-function closeModal(){
+
+async function closeModal(){
     modal.style.visibility = "hidden";
-    document.querySelector(".add-foto-wrapper").style.display = "none";
-    document.querySelector(".gallery").innerHTML = "";
-    generateWorks(works);
+    addFotoWrapper.style.display = "none";
+    document.body.style.overflow = "";
+    gallery.innerHTML = "";
+    await getWorks();
+    displayWorks(works);
 }
 function stopPropagation(e){
     e.stopPropagation();
 }
 const crossClose = document.getElementById("close");
 crossClose.addEventListener("click", closeModal);
-document.getElementById("modal").addEventListener("click", closeModal);
-document.querySelector(".modal-wrapper").addEventListener("click", stopPropagation);
-document.querySelector(".add-foto-wrapper").addEventListener("click", stopPropagation);
+modal.addEventListener("click", closeModal);
+modalWrapper.addEventListener("click", stopPropagation);
+addFotoWrapper.addEventListener("click", stopPropagation);
 
 // fonction affichage des photos modifiables
+
+// Récupération de l'élément du DOM qui accueillera les projets
+const fotoWrapper = document.querySelector(".foto-wrapper");
+
 function generateWorksToModify(works) {
-    document.querySelector(".foto-wrapper").innerHTML = "";
+    fotoWrapper.innerHTML = "";
     for (let i = 0; i < works.length; i++) {
         const element = works[i];
-        // Récupération de l'élément du DOM qui accueillera les projets
-        const divWorks = document.querySelector(".foto-wrapper");
         // Création d’une balise dédiée à un projet
-        const worksElement = document.createElement("figure");
+        const figure = document.createElement("figure");
         // Création de la balise image 
-        const imageElement = document.createElement("img");
-        if (element.imageUrl) {
-            imageElement.src = element.imageUrl;
-        } else {
-        imageElement.src = element.image;
-        }
+        const image = document.createElement("img");
+        image.src = element.imageUrl || element.image;
         // Création de la balise titre 
         const titleElement = document.createElement("figcaption");
         titleElement.innerText = "éditer";
         // Rattachement des balises
-        divWorks.appendChild(worksElement);
-        worksElement.appendChild(imageElement);
-        worksElement.appendChild(titleElement);
+        fotoWrapper.appendChild(figure);
+        figure.appendChild(image);
+        figure.appendChild(titleElement);
         // ajout des icones sur les photos
         const trashIcon = document.createElement("img");
         trashIcon.classList.add("trash");
@@ -145,15 +167,15 @@ function generateWorksToModify(works) {
         const moveIcon = document.createElement("img");
         moveIcon.classList.add("move");
         moveIcon.src = "assets/icons/Move.png";
-        worksElement.appendChild(moveIcon);
-        worksElement.appendChild(trashIcon);
+        figure.appendChild(moveIcon);
+        figure.appendChild(trashIcon);
     }
     trash();
 }
 
-//// fonctions supprimer projets
+//// Supprimer projets
 
-// Listener supprimer un projet
+// Fonction supprimer un projet
 
 function trash() {
     const trash = document.querySelectorAll(".trash");  
@@ -177,7 +199,7 @@ function trash() {
         console.error(error);
     });
     works.splice(trashArray.indexOf(t), 1);
-    document.querySelector(".foto-wrapper").innerHTML = "";
+    fotoWrapper.innerHTML = "";
     generateWorksToModify(works);
             
         })
@@ -185,13 +207,10 @@ function trash() {
     console.log(works);
 };
 
-    
-// supprimer la gallery
-//fonction supprimer la gallery
+// Fonction supprimer la gallery
+
 async function deleteAll(){
-
     for (let i = 0; i < works.length; i++) {
-
         await fetch(`http://localhost:5678/api/works/${works[i].id}`, {
          method: 'DELETE',
          headers: {
@@ -211,54 +230,59 @@ async function deleteAll(){
     } 
 }
 // Listener supprimer tous les projets
+
 const deleteGallery = document.querySelector(".delete-gallery");
 deleteGallery.addEventListener("click", function () {
 deleteAll();
 works.length = 0;
-document.querySelector(".foto-wrapper").innerHTML = "";
+fotoWrapper.innerHTML = "";
 generateWorksToModify(works);
 });
+
 //Modale ajouter projet
 
 const addFotoGalery = document.querySelector(".add-foto-galery");
 addFotoGalery.addEventListener("click", function() {
-    document.querySelector(".modal-wrapper").style.display = "none";
-    document.querySelector(".add-foto-wrapper").style.display = "flex";
+    modalWrapper.style.display = "none";
+    addFotoWrapper.style.display = "flex";
     document.querySelectorAll(".mask-foto").forEach(element => element.style.display = "inline");
     if (inputFoto.files){
+        inputFoto.value = null;
         fotoPreview.style.display = "none";
     }
     title.value ="";
     category.value = "nothing";
     inputAnalyse();
 })
-   
 
-    
+//Ajout de listener sur l'icone flèche retour
 
-  
-    //icone flèche retour
  const arrowBack = document.getElementById("arrow-back");
- arrowBack.addEventListener("click", function(){
-     document.querySelector(".modal-wrapper").style.display = "flex";
-     document.querySelector(".add-foto-wrapper").style.display = "none";
+ arrowBack.addEventListener("click", async function(){
+     modalWrapper.style.display = "flex";
+     addFotoWrapper.style.display = "none";
+     await getWorks();
      generateWorksToModify(works);
  })
-    //icone croix 
+
+//Ajout de listener sur l'icone croix
+
  const closeAddFoto = document.getElementById("close-add-foto");
  closeAddFoto.addEventListener("click", function(){
     closeModal();
-})
- 
-    //Ajout d'un projet
+}) 
+
+//Ajout d'un projet
+
 const title = document.getElementById("title");
 const category = document.getElementById("category");
 const validateButton = document.getElementById("validate");
-    // fonction analyse des input
+
+// fonction analyse des input
+
 let titleOk = false;
 let categoryOk = false;
 let fotoOk = false;
-
 function inputAnalyseTitle() {
     if (title.value.trim() !== "") {
         titleOk = true ;
@@ -290,6 +314,9 @@ function inputAnalyseFoto() {
     }
 }
 function inputAnalyse() {
+    inputAnalyseTitle();
+    inputAnalyseCategory();
+    inputAnalyseFoto();
     if (titleOk && categoryOk && fotoOk) {
         validateButton.classList.add("active");
         validateButton.disabled = false;
@@ -298,22 +325,35 @@ function inputAnalyse() {
         validateButton.disabled = true;
     }
 }
-
-
-
-console.log("works", works);
-
-
 ////Création nouveau projet
 
 //Fonction chargement de photo
 
 const inputFoto = document.getElementById("file");
-let fotoPreview = document.createElement("img");
 let file;
+const maxFileSize = 4 * 1024 * 1024; // 4Mo en octets
+
+// Créer l'élément img si nécessaire
+
+let fotoPreview = document.querySelector(".add-foto img");
+if (!fotoPreview) {
+fotoPreview = document.createElement("img");
+fotoPreview.style.display = "none";
+document.querySelector(".add-foto").appendChild(fotoPreview);
+}
+
+// Ajout d'un listener pour gérer le changement de fichier
 
 inputFoto.addEventListener("change",function(e){
+    console.log(inputFoto.value);
     if (e.target.files.length > 0){
+        const fileSize = e.target.files[0].size;
+        if (fileSize > maxFileSize) {
+            alert("La taille de la photo ne doit pas dépasser 4Mo.");
+            inputFoto.value = null;
+            fotoPreview.style.display = "none";
+            return;
+        }
         const reader = new FileReader();
         reader.readAsDataURL(e.target.files[0]);
         reader.onload = function() {
@@ -327,8 +367,10 @@ inputFoto.addEventListener("change",function(e){
     }
     inputAnalyseFoto();
     inputAnalyse();
-})
+});
+
 // Fonction d'envoie d'un nouveau projet
+
 async function addNewProject() {
     await fetch('http://localhost:5678/api/works', {
     method: 'POST',
@@ -347,20 +389,14 @@ async function addNewProject() {
     .catch(error => {
       console.error(error);
     })
-    newWork = {
-        title : title.value,
-        category : category.value,
-        image : fotoPreview.src
-    };
-    works.push(newWork);
     fotoPreview.remove();
-    document.querySelector(".add-foto-wrapper").style.display = "flex";
+    inputFoto.value = null;
+    addFotoWrapper.style.display = "flex";
     document.querySelectorAll(".mask-foto").forEach(element => element.style.display = "inline");
     title.value ="";
     category.value = "nothing";
     validateButton.classList.remove("active");
     validateButton.disabled = true;
-    
 };
 
 // Fonction de création de formulaire
@@ -379,16 +415,13 @@ validateButton.addEventListener("click", function(e) {
         console.log("formData",`${key}: ${value}`);
       };
     addNewProject()
-}) 
+});
 
 //Publier les changements
 
 const publishButton = document.getElementById("publish-button");
 publishButton.addEventListener("click", async function(e){
     e.preventDefault();
-    document.querySelector(".gallery").innerHTML = "";
-    generateWorks(works);
-    
+    gallery.innerHTML = "";
+    displayWorks(works);  
 })
-
-

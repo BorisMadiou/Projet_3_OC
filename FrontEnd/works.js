@@ -38,7 +38,6 @@ async function init() {
     await getWorks();
     displayWorks(works);
     admin();
-    console.log(works);
 };
 
 init();
@@ -204,7 +203,6 @@ function trash() {
             
         })
     }
-    console.log(works);
 };
 
 // Fonction supprimer la gallery
@@ -345,7 +343,6 @@ document.querySelector(".add-foto").appendChild(fotoPreview);
 // Ajout d'un listener pour gérer le changement de fichier
 
 inputFoto.addEventListener("change",function(e){
-    console.log(inputFoto.value);
     if (e.target.files.length > 0){
         const fileSize = e.target.files[0].size;
         if (fileSize > maxFileSize) {
@@ -362,7 +359,6 @@ inputFoto.addEventListener("change",function(e){
             document.querySelector(".add-foto").appendChild(fotoPreview);
             document.querySelectorAll(".mask-foto").forEach(element => element.style.display = "none");
             file = e.target.files[0];
-            console.log("e.target.files[0]",e.target.files[0]);
         };
     }
     inputAnalyseFoto();
@@ -411,9 +407,6 @@ validateButton.addEventListener("click", function(e) {
     formData.append("image", file);
     formData.append("title", title.value);
     formData.append("category", category.value);
-    for (const [key, value] of formData.entries()) {
-        console.log("formData",`${key}: ${value}`);
-      };
     addNewProject()
 });
 

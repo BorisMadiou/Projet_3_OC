@@ -187,20 +187,10 @@ function trash() {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json;charset=utf-8'
         }
-    })
-    .then(response => {
-        if (!response.ok) {
-        throw new Error('Erreur lors de la suppression de la ressource');
-        }
-        console.log('Ressource supprimée avec succès');
-    })
-        .catch(error => {
-        console.error(error);
-    });
-    works.splice(trashArray.indexOf(t), 1);
-    fotoWrapper.innerHTML = "";
-    generateWorksToModify(works);
-            
+        })
+        works.splice(trashArray.indexOf(t), 1);
+        fotoWrapper.innerHTML = "";
+        generateWorksToModify(works);     
         })
     }
 };
@@ -208,25 +198,17 @@ function trash() {
 // Fonction supprimer la gallery
 
 async function deleteAll(){
-    for (let i = 0; i < works.length; i++) {
-        await fetch(`http://localhost:5678/api/works/${works[i].id}`, {
-         method: 'DELETE',
-         headers: {
-             'Authorization': `Bearer ${token}`,
-             'Content-Type': 'application/json;charset=utf-8'
-           }
-       })
-       .then(response => {
-         if (!response.ok) {
-           throw new Error('Erreur lors de la suppression de la ressource');
-         }
-         console.log('Ressource supprimée avec succès');
-       })
-         .catch(error => {
-         console.error(error);
-       });
-    } 
+    works.forEach(async (work) => {
+        await fetch(`http://localhost:5678/api/works/${work.id}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json;charset=utf-8'
+            }
+        })
+    });
 }
+
 // Listener supprimer tous les projets
 
 const deleteGallery = document.querySelector(".delete-gallery");
@@ -335,9 +317,9 @@ const maxFileSize = 4 * 1024 * 1024; // 4Mo en octets
 
 let fotoPreview = document.querySelector(".add-foto img");
 if (!fotoPreview) {
-fotoPreview = document.createElement("img");
-fotoPreview.style.display = "none";
-document.querySelector(".add-foto").appendChild(fotoPreview);
+    fotoPreview = document.createElement("img");
+    fotoPreview.style.display = "none";
+    document.querySelector(".add-foto").appendChild(fotoPreview);
 }
 
 // Ajout d'un listener pour gérer le changement de fichier
@@ -375,15 +357,6 @@ async function addNewProject() {
         'accept': 'application/json',
         },
     body: formData
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Erreur lors de la création de la ressource');
-      }
-      console.log('Ressource créée avec succès');
-    })
-    .catch(error => {
-      console.error(error);
     })
     fotoPreview.remove();
     inputFoto.value = null;

@@ -23,10 +23,11 @@ formLogin.addEventListener("submit", async function(event) {
         window.sessionStorage.setItem("token", connection.token);
         document.location.href="index.html";
     } else if (reponse.status == "404"){
-        document.querySelector(".email-error").innerHTML = "email incorrect"
+        document.querySelector(".email-error").innerHTML = "email incorrect";
+        document.querySelector(".password-error").innerHTML = "";
         
     } else if (reponse.status == "401"){
-        document.querySelector(".password-error").innerHTML = "mot de passe incorrect"
-        document.querySelector(".email-error").parentNode.removeChild(document.querySelector(".email-error"));
+        document.querySelector(".password-error").innerHTML = "mot de passe incorrect";
+        document.querySelector(".email-error").innerHTML = "";
     }
 });
